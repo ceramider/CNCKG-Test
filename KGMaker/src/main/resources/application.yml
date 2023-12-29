@@ -1,0 +1,39 @@
+server:
+  port: 7080
+spring:
+  servlet:
+    multipart:
+      max-file-size: 100Mb
+      maxRequestSize: 1000Mb
+  neo4j:
+#    url: bolt://localhost:7687
+    url: bolt://8.138.96.91:7687
+    username: neo4j
+    password: 123456
+  #    url: bolt://42.193.123.190:7687
+  #    username: neo4j
+  #    password: 123456
+  #      url: bolt://101.43.143.249:7687
+  #      username: neo4j
+  #      password: 123456
+  datasource:
+    #      url: jdbc:mysql://localhost:3306/kg?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    #      url: jdbc:mysql://42.193.123.190:3306/kg?useSSL=false&serverTimezone=UTC
+    #      driverClassName: com.mysql.cj.jdbc.Driver
+    #      username: root
+    #      password: hjkl;'
+    url: jdbc:mysql://localhost:3306/kg?useSSL=false&serverTimezone=UTC
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    type: com.zaxxer.hikari.HikariDataSource
+mybatis:
+  #  typeAliasesPackage: com.warmer.kgmaker.entity
+  typeAliasesPackage: com.ceramider.cnckg.entity
+  mapperLocations: classpath*:/mapping/*.xml
+#配置分页插件pagehelper
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

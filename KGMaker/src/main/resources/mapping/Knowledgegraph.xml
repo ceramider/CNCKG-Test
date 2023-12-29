@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+        namespace="com.ceramider.cnckg.dal.IKnowledgegraphRepository">
+    <select id="getDomains" resultType="map">
+        SELECT *
+        FROM knowledgegraphdomain
+        WHERE status = 1
+    </select>
+    <select id="getDomainList" resultType="map">
+        SELECT
+        <if test="fileID!='' and fileID!=null">
+            name
+        </if>
+        <if test="fileID=='' or fileID==null">
+            distinct (name)
+        </if>
+        FROM knowledgegraphdomain
+        <where>
+            status=1
+            <if test="domainname!='' and domainname!=null">
+                and name like '%${domainname}%'
+            </if>
+            <if test="fileID!='' and fileID!=null">
+                and id = '${fileID}'
+            </if>
+        </where>
+    </select>
+    <select id="getDomainByName" resultType="map" parameterType="String">
+        SELECT *
+        FROM knowledgegraphdomain
+        WHERE status = 1
+          and name = #{domainname}
+          and id = #{fileID}
+    </select>
+    <select id="getDomainById" resultType="map" parameterType="Integer">
+        SELECT *
+        FROM knowledgegraphdomain
+        WHERE status = 1
+          and id = #{domainid}
+    </select>
+
+    <insert id="saveDomain" parameterType="map">
+        INSERT INTO knowledgegraphdomain(name, createuser, nodecount, shipcount, status, id)
+        VALUES (#{params.name}, #{params.createuser}, #{params.nodecount}, #{params.shipcount}, 1, #{params.id})
+    </insert>
+    <update id="updateDomain" parameterType="map">
+        UPDATE knowledgegraphdomain
+        SET name      =#{params.name},
+            createuser=#{params.createuser},
+            nodecount=#{params.nodecount},
+            shipcount=#{params.shipcount},
+            WHERE id = #{params.id}
+    </update>
+    <update id="deleteDomain" parameterType="Integer">
+        UPDATE knowledgegraphdomain
+        SET status = 0
+        WHERE id = #{id}
+    </update>
+
+</mapper>
